@@ -1,6 +1,25 @@
 import CategoryService from "./services/CategoryService.js";
 import ProductService from "./services/ProductService.js";
 
+async function getCategories() {
+    await CategoryService.prototype.getAll().then(async data => {
+        await data.map((category) => {
+            const option = `<option value="${category.id}">${category.name}</option>`
+            document.getElementById('dropdown').innerHTML += option;
+        })
+    });
+}
+
+async function getProducts(categoryId) {
+    loading();
+    await CategoryService.prototype.getAllProducts(categoryId ? categoryId : "1").then(async data => {
+        document.getElementById('container').innerHTML = '';
+        await data.map((product) => {
+            insertCard(product)
+        });
+    });
+}
+
 function insertCard(product) {
     const card = `
                 <div class="card" style="width: 18rem;">
@@ -35,27 +54,6 @@ function loading() {
         `;
 }
 
-async function getCategories() {
-    await CategoryService.prototype.getAll().then(async data => {
-        await data.map((category) => {
-            const option = `
-                    <option value="${category.id}">${category.name}</option>
-                `
-            document.getElementById('dropdown').innerHTML += option;
-        })
-    });
-}
-
-async function getProducts() {
-    loading();
-    await CategoryService.prototype.getAllProducts("1").then(async data => {
-        document.getElementById('container').innerHTML = '';
-        await data.map((product) => {
-            insertCard(product)
-        });
-    });
-}
-
 function search(e) {
     let input = document.getElementById("search");
     input.addEventListener("keypress", function (event) {
@@ -79,13 +77,7 @@ function search(e) {
 function select(e) {
     let dropdown = document.getElementById("dropdown");
     dropdown.addEventListener("change", function (event) {
-        loading();
-        CategoryService.prototype.getAllProducts(dropdown.value).then(async data => {
-            document.getElementById('container').innerHTML = '';
-            await data.map((product) => {
-                insertCard(product)
-            });
-        });
+        getProducts(dropdown.value)
     });
 }
 
