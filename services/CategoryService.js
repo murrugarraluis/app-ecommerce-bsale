@@ -8,4 +8,8 @@ export default class CategoryService {
     async getOne(id) {
         return await HttpService.prototype.getOne(uri,id)
     }
+    async getAllProducts(id) {
+        let custom_uri = `${uri}/${id}/products`
+        return await HttpService.prototype.getAll(custom_uri)
+    }
 }
