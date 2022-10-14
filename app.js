@@ -7,12 +7,32 @@ function insertCard(product) {
                     <img src="${product.urlImage}" alt="${product.name}-image" class="card-img-top">
                       <div class="card-body">
                         <h5 class="card-title">${product.name}</h5>
-                        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                        <a href="#" class="btn btn-primary">Go somewhere</a>
+                        <div class="d-flex">
+                            <p class="card-text text-black-50" style="text-decoration:line-through;">$${product.price}</p>
+                            <p class="card-text mx-2">-${product.discount}%</p class="card-text">
+                        </div>
+                        <p class="card-text text-danger fs-4 fw-semibold">$${product.discount > 0 ? product.price - (product.price * (product.discount / 100)) : product.price}</p>
+                        <div class="d-flex justify-content-center pt-4">
+                            <a href="#" class="btn btn-primary">
+                                <i class="bi bi-cart"></i>
+                                Add Cart
+                            </a>
+                        </div>
                       </div>
                 </div>
             `
     document.getElementById('container').innerHTML += card;
+}
+
+function loading() {
+    document.getElementById('container').innerHTML = `
+            <div class="d-flex justify-content-center align-items-center" style="height: 80vh">
+                <div class="spinner-border text-secondary" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+            </div>
+
+        `;
 }
 
 async function getCategories() {
@@ -27,7 +47,8 @@ async function getCategories() {
 }
 
 async function getProducts() {
-    await ProductService.prototype.getAll().then(async data => {
+    loading();
+    await CategoryService.prototype.getAllProducts("1").then(async data => {
         document.getElementById('container').innerHTML = '';
         await data.map((product) => {
             insertCard(product)
@@ -42,6 +63,7 @@ function search(e) {
             event.preventDefault();
             let {value} = input;
             if (value.length > 0) {
+                loading();
                 ProductService.prototype.getAllFilter(value)
                     .then(async data => {
                         document.getElementById('container').innerHTML = '';
@@ -57,13 +79,13 @@ function search(e) {
 function select(e) {
     let dropdown = document.getElementById("dropdown");
     dropdown.addEventListener("change", function (event) {
-        CategoryService.prototype.getAllProducts(dropdown.value)
-            .then(async data => {
-                document.getElementById('container').innerHTML = '';
-                await data.map((product) => {
-                    insertCard(product)
-                });
+        loading();
+        CategoryService.prototype.getAllProducts(dropdown.value).then(async data => {
+            document.getElementById('container').innerHTML = '';
+            await data.map((product) => {
+                insertCard(product)
             });
+        });
     });
 }
 
