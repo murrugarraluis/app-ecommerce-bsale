@@ -1,4 +1,4 @@
-const apiHost = "http://127.0.0.1:8000/api/v1"
+const apiHost = "https://api-ecommerce-bsale.herokuapp.com/api/v1"
 export default class HttpService {
 
     async getAll(uri) {
