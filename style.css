@@ -53,38 +53,30 @@ header {
     margin: 0 auto;
     display: flex;
     flex-wrap: wrap;
+    justify-content: center;
 }
 
 .card {
-    flex: 2;
-    flex-direction: row;
-    align-items: center;
-    margin: 8px;
-    padding: 13px;
-    border-radius: 5px;
-    text-align: center;
-    background: white;
-    box-shadow: 0 10px 6px -6px rgba(6, 4, 12, 0.8);
-    transition: trasform -5s ease;
+    margin: 5px;
 }
 
-.card div {
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-}
+/*.card div {*/
+/*    display: flex;*/
+/*    justify-content: space-around;*/
+/*    align-items: center;*/
+/*}*/
 
 .card img {
     max-width: 200px;
     height: 350px;
-    border-radius: 5px;
+    margin: 0 auto;
 }
 
-.card:hover {
-    transform: scale(1.02);
-}
+/*.card:hover {*/
+/*    transform: scale(1.02);*/
+/*}*/
 
-.card .title {
-    margin-bottom: 20px;
-    margin-top: auto;
-}
+/*.card .title {*/
+/*    margin-bottom: 20px;*/
+/*    margin-top: auto;*/
+/*}*/
